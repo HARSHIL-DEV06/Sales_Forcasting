@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Forecasting - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1 class="dashboard-title">Sales Forecasting using Live POS Data Simulation</h1>
+                <div class="header-info">
+                    <span class="info-badge">Sales Stopped</span>
+                    <span class="info-text">Last Update: 11:19PM</span>
+                    <span class="quality-badge">Data Quality: Good</span>
+                    <button class="user-btn">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M4 18C4 14.134 6.686 11 10 11C13.314 11 16 14.134 16 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        User
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main fade-in">
+            <!-- Feed Control -->
+            <div class="feed-control">
+                <button id="startFeedBtn" class="feed-btn start">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="6" fill="currentColor"/>
+                    </svg>
+                    Start live feed
+                </button>
+            </div>
+
+            <!-- Settings Bar -->
+            <div class="settings-bar">
+                <div class="setting-group">
+                    <label>Time Range <span class="badge">Future Scope</span></label>
+                    <select class="select-input">
+                        <option>30 Days</option>
+                        <option>60 Days</option>
+                        <option>90 Days</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label>Store <span class="badge">Future Scope</span></label>
+                    <select class="select-input">
+                        <option>All Stores</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Total Sales</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M14 7L10 11L14 7Z" stroke="#4169FF" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-value">₹ 56,06,305</div>
+                    <div class="stat-subtitle">All time</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Average Daily Sales</span>
+                    </div>
+                    <div class="stat-value">₹ 15,380</div>
+                    <div class="stat-subtitle">Per day</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Recent Growth</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M14 7L10 11L14 7Z" stroke="#10B981" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-value positive">+8.0%</div>
+                    <div class="stat-subtitle">Last 7 days vs previous</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Expected Growth</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M14 7L10 11L14 7Z" stroke="#10B981" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-value positive">+22.3%</div>
+                    <div class="stat-subtitle">Next 3 months forecast</div>
+                </div>
+            </div>
+
+            <!-- Upload Section -->
+            <div class="upload-section">
+                <h2 class="section-title">Import your POS or sales data for analysis and forecasting</h2>
+                <div class="upload-subtitle">Upload Sales Data (CSV)</div>
+                
+                <div id="dropZone" class="drop-zone">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                        <path d="M24 16V32M24 16L18 22M24 16L30 22" stroke="#4169FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 32V36C10 38.2091 11.7909 40 14 40H34C36.2091 40 38 38.2091 38 36V32" stroke="#4169FF" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <p class="drop-text">Drag & drop your CSV file here</p>
+                    <p class="drop-subtext">or click to browse files</p>
+                    <input type="file" id="csvFileInput" accept=".csv" hidden>
+                    <button class="upload-btn" onclick="document.getElementById('csvFileInput').click()">
+                        Upload CSV
+                    </button>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-card large">
+                    <div class="chart-header">
+                        <h3>Historical Sales Trends</h3>
+                        <div class="time-filter">
+                            <button class="time-btn active">7D</button>
+                            <button class="time-btn">1M</button>
+                            <button class="time-btn">6M</button>
+                            <button class="time-btn">1Y</button>
+                            <button class="time-btn">Max</button>
+                        </div>
+                    </div>
+                    <div class="chart-area">
+                        <canvas id="salesTrendChart"></canvas>
+                    </div>
+                    <p class="chart-note">Total time sales data from POS system (30 Days)</p>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>3-Month Sales Forecast</h3>
+                        <button class="ml-badge">ML Prediction</button>
+                    </div>
+                    <p class="forecast-note">Models trained on historical data to use with ARIMA</p>
+                    <div class="chart-area">
+                        <canvas id="forecastChart"></canvas>
+                    </div>
+                    <p class="chart-note">Expected Average Sales: ₹ 16,437.65 &nbsp;&nbsp; Deviation: From ₹14500/N to ₹18000/N</p>
+                </div>
+            </div>
+
+            <!-- Future Analysis Section -->
+            <div class="future-section">
+                <h2 class="section-title">Future Analysis Sections</h2>
+                <div class="future-grid">
+                    <div class="future-card">
+                        <div class="future-icon">📊</div>
+                        <h3>Category-wise Sales Analysis</h3>
+                        <p>Coming soon</p>
+                    </div>
+                    <div class="future-card">
+                        <div class="future-icon">🏪</div>
+                        <h3>Store-wise Performance</h3>
+                        <p>Coming soon</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
